@@ -1,25 +1,4 @@
 #!/bin/bash
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# File name: diy-part2.sh
-# Description: OpenWrt DIY script part 2 (After Update feeds)
-#
-# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-
-# Modify default IP
-#sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
-
-# Modify default theme
-#sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
-
-# Modify hostname
-#sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
-
-#!/bin/bash
 # diy-part2.sh
 # 执行时机：feeds update + install 之后，make defconfig/download 之前
 
@@ -28,7 +7,7 @@ set -e
 # ============================================================
 # 1. 修复 simple-obfs 的 isdigit 补丁（解决 fuzz / 截断问题）
 # ============================================================
-OBFS_PATCH="feeds/helloworld/simple-obfs/patches/001-convert-arguments-of-isdigit-to-int.patch"
+OBFS_PATCH="package/feeds/helloworld/simple-obfs/patches/001-convert-arguments-of-isdigit-to-int.patch"
 
 if [ -f "$OBFS_PATCH" ]; then
     echo ">>> Rewriting $OBFS_PATCH"
@@ -124,7 +103,7 @@ if [ -d "package/kernel/mac80211/patches/build" ]; then
  		break;
 EOF
 else
-    echo ">>> WARNING: mac80211 patches dir not found, skip"
+    echo ">>> WARNING: mac80211 patches/build dir not found, skip"
 fi
 
 echo ">>> diy-part2.sh done"
